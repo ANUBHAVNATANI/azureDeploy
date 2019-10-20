@@ -22,12 +22,15 @@ def checkImages():
     try:
         #Api of checking for the android cliet
         faceId = request.args.get('faceId')
+        print(face_id)
         database = get_database('perm')
+        print("hellow")
         a,name = database[0],database[1] 
         #take face ids from the original database
         #results array
         score = []
         boolArr = []
+        print(name)
         for i in a:
             try:
                 v = face_compare(i,faceId)
@@ -36,6 +39,7 @@ def checkImages():
             except:
                 pass
         extract_max = score.index(max(score))
+        print(extract_max)
         if(boolArr[extract_max]==True):
             #call database route to store the array
             r = post_matched_images(a[extract_max],faceId,name[extract_max])

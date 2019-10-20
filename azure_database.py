@@ -13,12 +13,22 @@ def get_database(name):
         url = "https://reliceapi.azurewebsites.net/api/get/complaints"
     r = requests.get(url=url)
     data = r.json()
-    arr = [data[i]['face_id'] for i in range(len(data))]
+    arr = []
+    name_a = []
+    for i in range(len(data)):
+        try:
+            arr.append(data[i]['face_id'])
+        except:
+            pass
     if(name == "temp"):
         return arr
     else:
-        name = [data[i]['victim_name'] for i in range(len(data))]
-    return [arr,name]
+        for i in range(len(data)):
+            try:
+                name_a.append(data[i]['victim_name'])
+            except:
+                pass
+    return [arr,name_a]
 
 def post_matched_images(face_id1,face_id2,victim_name):
     """
