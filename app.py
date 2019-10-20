@@ -56,16 +56,19 @@ def getId():
         #results array
         score = []
         boolArr = []
-        for i in a:
-            v = face_compare(i,faceId)
-            score.append(v['confidence'])
-            boolArr.append(v['isIdentical'])
-        extract_max = score.index(max(score))
-        if(boolArr[extract_max]==True):
-            #call database route to store the array
-            return jsonify({"face_id":faceId,"matched_id":a[extract_max]})
-        else:
-            #else do not call the database route
+        try:
+            for i in a:
+                v = face_compare(i,faceId)
+                score.append(v['confidence'])
+                boolArr.append(v['isIdentical'])
+            extract_max = score.index(max(score))
+            if(boolArr[extract_max]==True):
+                #call database route to store the array
+                return jsonify({"face_id":faceId,"matched_id":a[extract_max]})
+            else:
+                #else do not call the database route
+                return jsonify({"face_id":faceId,"matched_id":""})
+        except:
             return jsonify({"face_id":faceId,"matched_id":""})
     except:
         return jsonify({'Feedback': "error"})
@@ -73,7 +76,7 @@ def getId():
 
 #App running code
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
     
 
 
